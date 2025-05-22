@@ -1,5 +1,8 @@
 # 🛵 EasyMoto IoT — Gestão Inteligente de Motos no Pátio
 
+O easyMoto é a solução proposta para o Challenger 2025, em parceria com a empresa Mottu, para mapeamento inteligente do pátio e gestão de motos.
+Trata-se de um protótipo funcional que simula o controle de motos em pátios de empresas.
+
 ---
 
 ## ❓ Qual problema real o projeto resolve?
@@ -67,3 +70,10 @@ A integração com **Python** permite visualizar, registrar e analisar os dados 
    ```bash
    pip install pyserial
    python easymoto_terminal.py
+
+---
+
+##  👩‍💻 Integrantes
+
+- Mirela Pinheiro Silva Rodrigues — RM: 558191
+- Valéria Conceição dos Santos — RM: 557177
