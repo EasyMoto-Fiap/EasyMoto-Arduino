@@ -14,7 +14,7 @@ A gestão manual da localização e status das motos em pátios de locadoras cau
 
 ## 🎬 Pitch do Projeto
 
-👉 [Pitch aqui!](LINK_DO_VIDEO_AQUI)
+👉 [Pitch aqui!](https://youtu.be/ZSv4MgKSw2w)
 
 ---
 
