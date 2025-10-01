@@ -3,7 +3,7 @@ Um protótipo IoT para status de motos usando um ESP32, 3 botões (simulando eve
 A cada mudança de estado o ESP32 publica via MQTT um JSON com o status atual, que é consumido por um dashboard em Python e persistido em arquivo CSV.
 
 
-### Video: 
+### Video:  https://youtu.be/ayeFn__CfQo
 
 > Estados: 🟢 **PRONTA** | 🟡 **PENDENTE** | 🔴 **MANUTENÇÃO**
 
