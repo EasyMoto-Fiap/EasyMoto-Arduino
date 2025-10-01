@@ -56,6 +56,12 @@ Automatizar a **identificação** e o **status** das motos. As leituras dos **bo
   <img src="img/arduino03.jpg" alt="Protótipo 3" width="65%">
 </p>
 
+
+<p align="center">
+  <img src="img/arduino04.jpg" alt="Protótipo 3" width="65%">
+</p>
+
+
 ---
 
 
