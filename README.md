@@ -1,79 +1,87 @@
-# 🛵 EasyMoto IoT — Gestão Inteligente de Motos no Pátio
+# 📊 EasyMoto IoT – Sprint 3 (Caso IoT)
+Um protótipo IoT para status de motos usando um ESP32, 3 botões (simulando eventos/RFID) e 3 LEDs (indicadores).
+A cada mudança de estado o ESP32 publica via MQTT um JSON com o status atual, que é consumido por um dashboard em Python e persistido em arquivo CSV.
 
-O easyMoto é a solução proposta para o Challenger 2025, em parceria com a empresa Mottu, para mapeamento inteligente do pátio e gestão de motos.
-Trata-se de um protótipo funcional que simula o controle de motos em pátios de empresas.
 
----
+### Video: 
 
-## ❓ Qual problema real o projeto resolve?
+> Estados: 🟢 **PRONTA** | 🟡 **PENDENTE** | 🔴 **MANUTENÇÃO**
 
-A gestão manual da localização e status das motos em pátios de locadoras causa atrasos, retrabalho, riscos de segurança e baixa produtividade.  
-**A falta de padronização dificulta o monitoramento em tempo real**, aumenta os erros e prejudica a operação, especialmente em empresas com múltiplas filiais e grande volume de movimentações diárias.
 
----
 
-## 🎬 Pitch do Projeto
-
-👉 [Pitch aqui!](https://youtu.be/ZSv4MgKSw2w)
+<p align="center">
+  <img src="img/arduino01.jpg" alt="Protótipo 1" width="65%">
+</p>
 
 ---
 
-## 💡 Justificativa
-
-A aplicação de **IoT** permite **automatizar a identificação e o status das motos**, trazendo mais agilidade, confiabilidade e visibilidade para a gestão.  
-O uso de **RFID** garante identificação única sem contato físico, enquanto **atuadores visuais (LEDs)** facilitam a operação e o monitoramento local.  
-A integração com **Python** permite visualizar, registrar e analisar os dados em tempo real.
+## 📌 Objetivo
+Automatizar a **identificação** e o **status** das motos. As leituras dos **botões** (simulando RFID/eventos) mudam o estado dos **LEDs** e são publicadas em **tempo real (MQTT)**. Um **dashboard em Python** exibe os dados ao vivo e grava o **histórico** em arquivo CSV.
 
 ---
 
-## 🛠️ Tecnologias Utilizadas
+## 🧱 Arquitetura
+- **ESP32** (firmware Arduino):
+  - 3 **entradas**: botões (D26, D27, D25) com `INPUT_PULLUP`
+  - 3 **saídas**: LEDs (D23, D22, D21) com resistores 220–330 Ω
+  - Conecta no **Wi‑Fi 2.4 GHz** e publica em **MQTT**
+  - Mensagem **retida** (retained) + **Last Will** (online/offline)
+- **Backend leve (MQTT Broker público)**: `broker.hivemq.com:1883`
+- **Dashboard Python** (`dashboard.py`): assina os tópicos, mostra tabela em tempo real e **persiste** em `log_status.csv`
+- **Simulador Python** (`simulador.py`): cria **moto-02** e **moto-03** para rodar junto com a **moto-01** real
 
-- **Arduino UNO**  
-  Microcontrolador central, responsável por processar a leitura dos cartões RFID e acionar os LEDs.
-- **Leitor RFID MFRC522**  
-  Sensor que identifica cada moto por meio de TAGs/cartões RFID únicos.
-- **LEDs (Verde, Amarelo, Vermelho)**  
-  Atuam como indicadores visuais do status da moto:  
-  🟢 Pronta | 🟡 Pendente | 🔴 Manutenção.
-- **Python + PySerial**  
-  Recebe os dados do Arduino via Serial, exibe no terminal, e permite registro/histórico das operações.
-- **Protoboard, jumpers, resistores**  
-  Facilita a montagem organizada.
----
-
-## ⚙️ Funcionamento do Projeto
-
-1. 🏍️ **Moto recebe TAG RFID única**.
-2. 👷‍♂️ **Operador movimenta a moto** no pátio e encosta a TAG no **leitor MFRC522**.
-3. 🧠 **Arduino lê o UID**, determina o status (ex: Pronta, Pendente, Manutenção) e acende o **LED correspondente**.
-4. 💻 **Dados enviados via Serial USB** para o **Python**, que exibe e registra os eventos em tempo real.
-5. 🖥️ **Supervisor pode acompanhar tudo no terminal** — pronto para futuras integrações.
+<p align="center">
+  <img src="img/arduino02.jpg" alt="Protótipo 2" width="65%">
+</p>
 
 ---
 
-## 📸 Imagens do protótipo
+## 🔌 Pinagem & ligações
 
-<div align="center">
-  <img src="https://media.discordapp.net/attachments/954097907806642297/1375187262031007825/ino.jpg?ex=6830c671&is=682f74f1&hm=80b3fec2ef5f884c9287dfc1cad2f1a2d9f5b9c0fc8ce34d38c1ca88f6172270&=&format=webp&width=1032&height=476" width="350"/>
-  &nbsp;
-  <img src="https://media.discordapp.net/attachments/954097907806642297/1375187661878202368/6a6eada5-c531-4e24-93c3-576cb8c56638.jpg?ex=6830c6d0&is=682f7550&hm=878615733b2358dccd66eb807fbf91e1a82b480d3ddd028f721fa77ca1720aff&=&format=webp&width=1032&height=476" width="350"/>
-</div>
+### LEDs (atuadores)
+| LED | Pino ESP32 | Ligação |
+|---|---|---|
+| Verde | **D23 (GPIO 23)** | D23 → **resistor 220–330 Ω** → **anodo** do LED; **catodo** → **GND** |
+| Amarelo | **D22 (GPIO 22)** | D22 → resistor → anodo; catodo → GND |
+| Vermelho | **D21 (GPIO 21)** | D21 → resistor → anodo; catodo → GND |
+
+### Botões (sensores)
+| Botão | Pino ESP32 | Ligação |
+|---|---|---|
+| Verde | **D26 (GPIO 26)** | **D26 ↔ botão ↔ GND** (atravessando a fenda do protoboard) |
+| Amarelo | **D27 (GPIO 27)** | **D27 ↔ botão ↔ GND** |
+| Vermelho | **D25 (GPIO 25)** | **D25 ↔ botão ↔ GND** |
+
+<p align="center">
+  <img src="img/arduino03.jpg" alt="Protótipo 3" width="65%">
+</p>
 
 ---
 
-## 📄 Como rodar
 
-1. Monte o circuito conforme as fotos.
-2. Suba o código Arduino do EasyMoto.
-3. Feche o Serial Monitor da Arduino IDE.
-4. Execute o script Python no computador:
-   ```bash
-   pip install pyserial
-   python easymoto_terminal.py
+## 🖥️ Dashboard + Persistência (Python)
 
+### Requisitos
+```bash
+pip install paho-mqtt rich
+```
+
+### Executar
+```bash
+python dashboard.py
+```
+- Mostra uma **tabela em tempo real** com `id`, `status`, `ts` e **dados**.  
+- Cada mensagem recebida é gravada no **CSV**: `log_status.csv`.
+
+### Simulador
+```bash
+python simulador.py
+```
+Cria **moto-02** e **moto-03** publicando a cada ~3 s. Execute **junto** com a **moto-01** real para demonstrar **3 dispositivos** em paralelo.
 ---
+## 👥 Equipe:
 
-##  👩‍💻 Integrantes
+* ⭐️ **Valéria Conceição Dos Santos** — RM: **557177**  
+* ⭐️ **Mirela Pinheiro Silva Rodrigues** — RM: **558191**
+* ⭐️ **Luiz Eduardo Da Silva Pinto** — RM: **555213**
 
-- Mirela Pinheiro Silva Rodrigues — RM: 558191
-- Valéria Conceição dos Santos — RM: 557177
