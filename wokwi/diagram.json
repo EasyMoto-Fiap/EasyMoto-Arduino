@@ -1,0 +1,68 @@
+{
+  "version": 1,
+  "author": "Mottu EasyMoto Team",
+  "editor": "wokwi",
+  "parts": [
+    { "type": "wokwi-esp32-devkit-v1", "id": "esp", "top": 0, "left": 0, "attrs": {} },
+    { "type": "wokwi-breadboard", "id": "bb1", "top": 0, "left": 250, "attrs": {} },
+    {
+      "type": "wokwi-led",
+      "id": "led-verde",
+      "top": 50,
+      "left": 400,
+      "attrs": { "color": "green", "label": "PRONTA" }
+    },
+    {
+      "type": "wokwi-led",
+      "id": "led-amarelo",
+      "top": 100,
+      "left": 400,
+      "attrs": { "color": "yellow", "label": "PENDENTE" }
+    },
+    {
+      "type": "wokwi-led",
+      "id": "led-vermelho",
+      "top": 150,
+      "left": 400,
+      "attrs": { "color": "red", "label": "MANUTENCAO" }
+    },
+    {
+      "type": "wokwi-resistor",
+      "id": "r1",
+      "top": 50,
+      "left": 480,
+      "rotate": 90,
+      "attrs": { "value": "220" }
+    },
+    {
+      "type": "wokwi-resistor",
+      "id": "r2",
+      "top": 100,
+      "left": 480,
+      "rotate": 90,
+      "attrs": { "value": "220" }
+    },
+    {
+      "type": "wokwi-resistor",
+      "id": "r3",
+      "top": 150,
+      "left": 480,
+      "rotate": 90,
+      "attrs": { "value": "220" }
+    }
+  ],
+  "connections": [
+    [ "esp:GND.1", "bb1:j.a", "black", [] ],
+    [ "esp:3V3", "bb1:j.b", "red", [] ],
+    [ "esp:D23", "r1:1", "green", [] ],
+    [ "r1:2", "led-verde:A", "green", [] ],
+    [ "led-verde:C", "bb1:j.a", "black", [] ],
+    [ "esp:D22", "r2:1", "yellow", [] ],
+    [ "r2:2", "led-amarelo:A", "yellow", [] ],
+    [ "led-amarelo:C", "bb1:j.a", "black", [] ],
+    [ "esp:D21", "r3:1", "red", [] ],
+    [ "r3:2", "led-vermelho:A", "red", [] ],
+    [ "led-vermelho:C", "bb1:j.a", "black", [] ]
+  ],
+  "dependencies": {}
+}
